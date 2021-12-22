@@ -27,15 +27,19 @@ self.Bar = function(x,y,width,height,board){
     this.board = board;
     this.board.bars.push(this);
     this.kind = "rectangle";
-    console.log('entra al constructor')
+    this.speed = 10;
+    // console.log('entra al constructor')
 }
 
 self.Bar.prototype = {
     down: function(){
-
+        this.y += this.speed;
     },
     up: function(){
-
+        this.y -= this.speed;
+    },
+    toString: function(){
+        return "x: " + this.x + " y: " +this.y;
     }
 }
 
@@ -70,22 +74,34 @@ function draw(ctx, element){
                 // console.log(element.x, element.y, element.width, element.height)
                 ctx.fillRect(element.x, element.y, element.width, element.height);
                 break;
-
     }
     }
 }
 
 })();
 
-window.addEventListener("load", main);
-
-function main(){
-console.log('Hola mundo')
 let board = new Board(800, 400);
 let bar = new Bar(20,100,40,100,board);
 let bar2 = new Bar(735,100,40,100,board);
 let canvas = document.getElementById('canvas');
 let board_view = new BoardView(canvas, board);
+
+document.addEventListener("keydown", function(ev){
+    // console.log(ev.keyCode);
+    if(ev.keyCode == 87){   
+        bar.up();
+    }
+    else if(ev.keyCode == 83){
+        bar.down();
+    }
+    console.log(""+bar); 
+    // console.log(bar.toString()); 
+})
+
+window.addEventListener("load", main);
+
+function main(){
+console.log('Hola mundo')
 console.log(board);
 board_view.draw();
 }
